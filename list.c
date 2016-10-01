@@ -52,7 +52,6 @@ Tnode* insert_node(Tnode* head, Tnode* newNode) {
 Tnode* list_create(Tnode *head) {
 	Tnode *p1 = NULL;
 	Tnode *p2 = NULL;
-	//Tnode *insert = NULL;
 
 	p1 = (Tnode*)malloc(sizeof(Tnode));
 	p1->next = NULL;
@@ -65,9 +64,6 @@ Tnode* list_create(Tnode *head) {
 		head = p1;	
 	}
 	else {
-		//p2 = insert = insert_node(head, p1);
-		//insert->next = p1;
-		//p1->next = p2->next;
 		head = insert_node(head, p1);
 	}
 	
@@ -89,22 +85,52 @@ void list_del(Tnode *head) {
 void list_print(Tnode *head) {
 	Tnode *p = head;
 	while(p) {
-		printf("%d", p->num);
+		printf("%d ", p->num);
 		p = p->next;
 	}
 	printf("\n");
 	printf("End to print list\n");
 }
 
+Tnode* list_merge(Tnode *head1, Tnode *head2) {
+	Tnode *p = head2;
+	Tnode *q = head2;
+	while(p) {
+		p = q->next;
+		head1 = insert_node(head1, q);
+		q = p;
+	}
+	return head1;	
+}
+
 int main() {
+	Tnode *head1 = NULL;
+	Tnode *head2 = NULL;
 	Tnode *head = NULL;
+	
+	printf("Ready to print list 1\n");
 	for (int i = 0; i < 5; i++) {
-		head = list_create(head);
+		head1 = list_create(head1);
 	}
+
+	printf("Ready to print list 2\n");
+	for (int j = 0; j < 5; j++) {
+		head2 = list_create(head2);
+	}
+
+	if (!head1 || !head2) {
+		printf("ERROR The head is NULL\n");
+	}
+	list_print(head1);
+	list_print(head2);
+	
+	head = list_merge(head1, head2);
 	if (!head) {
-		printf("ERROR The head is NULL");
+		printf("ERROR The head is NULL\n");
 	}
+
 	list_print(head);
+
 	list_del(head);
 
 	return 0;
